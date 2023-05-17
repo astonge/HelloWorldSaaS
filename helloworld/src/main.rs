@@ -1,17 +1,21 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
 
 #[get("/hello")]
 async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello World")
+    HttpResponse::Ok().body("Hello")
 }
 #[get("/world")]
-async fn world(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(req_body)
+async fn world() -> impl Responder {
+    HttpResponse::Ok().body("World")
 }
 
 #[get("/healthcheck")]
 async fn healthcheck() -> impl Responder {
     HttpResponse::Ok().body("I'm alive!")
+}
+
+async fn invalid_route() -> impl Responder {
+    HttpResponse::Ok().body("These are not the droids you are looking for...")
 }
 
 #[actix_web::main]
@@ -21,7 +25,7 @@ async fn main() -> std::io::Result<()> {
             .service(hello)
             .service(world)
             .service(healthcheck)
-            // .route("/hey", web::get().to(manual_hello))
+            .route("/", web::get().to(invalid_route))
     })
     .bind(("127.0.0.1", 8080))?
     .run()
