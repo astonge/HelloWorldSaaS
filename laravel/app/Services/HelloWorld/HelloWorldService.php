@@ -3,6 +3,7 @@
 namespace App\Services\HelloWorld;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Auth\Access\Response;
 
 class HelloWorldService
 {
@@ -10,18 +11,22 @@ class HelloWorldService
 
     public function __construct()
     {
-        //
+        // 
     }
     
     public function hello(): string
     {
         $response = Http::get(self::API_URL. '/hello');
-        return $response->ok() ? $response : "Error";
+        return $response->ok() 
+            ? $response 
+            : Response::deny('Error retriving data');
     }
 
     public function world(): string
     {
         $response = Http::get(self::API_URL. '/world');
-        return $response->ok() ? $response : "Error";
+        return $response->ok() 
+            ? $response 
+            : Response::deny('Error retriving data');
     }
 }

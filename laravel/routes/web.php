@@ -19,17 +19,19 @@ use App\Services\HelloWorld\HelloWorldService;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
+        'canLogin'       => Route::has('login'),
+        'canRegister'    => Route::has('register'),
         'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        'phpVersion'     => PHP_VERSION,
     ]);
 });
 
 Route::get('/dashboard', function (HelloWorldService $service) {
+    
     $hello = $service->hello();
     $world = $service->world();
     return Inertia::render('Dashboard', compact('hello','world'));
+
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
