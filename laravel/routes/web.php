@@ -30,7 +30,7 @@ Route::get('/dashboard', function (HelloWorldService $service) {
     
     $hello = $service->hello();
     $world = $service->world();
-    return Inertia::render('Dashboard', compact('hello','world'));
+    return Inertia::render('Dashboard', compact('hello', 'world'));
 
 })->middleware(['auth', 'verified'])->name('dashboard');
 

@@ -16,17 +16,25 @@ class HelloWorldService
     
     public function hello(): string
     {
-        $response = Http::get(self::API_URL. '/hello');
-        return $response->ok() 
-            ? $response 
-            : Response::deny('Error retriving data');
+        try {
+            $response = Http::connectTimeout(3)->get(self::API_URL. '/hello');
+        } catch (\Illuminate\Http\Client\ConnectionException $e) {
+            // Log error
+            $response = Response::deny('Error retriving data');
+        }
+
+        return $response;
     }
 
     public function world(): string
     {
-        $response = Http::get(self::API_URL. '/world');
-        return $response->ok() 
-            ? $response 
-            : Response::deny('Error retriving data');
+        try {
+            $response = Http::connectTimeout(3)->get(self::API_URL. '/world');
+        } catch (\Illuminate\Http\Client\ConnectionException $e) {
+            // Log error
+            $response = Response::deny('Error retriving data');
+        }
+
+        return $response;
     }
 }
